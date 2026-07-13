@@ -22,6 +22,8 @@ import { getScooterBySlug, type ScooterCatalogEntry } from "@/data/scooters";
 const toc = [
   { id: "overview", label: "Overview", level: 2 },
   { id: "specifications", label: "Specifications", level: 2 },
+  { id: "tuning", label: "Tuning Options", level: 2 },
+  { id: "maintenance", label: "Maintenance", level: 2 },
   { id: "firmware", label: "Firmware", level: 2 },
   { id: "hardware", label: "Hardware Overview", level: 2 },
   { id: "pinouts", label: "Connectors & Pinouts", level: 2 },
@@ -158,6 +160,38 @@ export function ModelPage() {
             </Card>
           </section>
 
+          <section id="tuning" className="mb-12">
+            <h2 className="mb-4 text-2xl font-semibold text-white">Tuning Options</h2>
+            <div className="grid gap-4 md:grid-cols-2">
+              {model?.tuningOptions?.map((option) => (
+                <Card key={option.title} className="glass">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-base text-white">{option.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">{option.detail}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </section>
+
+          <section id="maintenance" className="mb-12">
+            <h2 className="mb-4 text-2xl font-semibold text-white">Maintenance Checklist</h2>
+            <Card className="glass">
+              <CardContent className="py-4">
+                <ul className="space-y-3">
+                  {model?.maintenanceChecklist?.map((item) => (
+                    <li key={item} className="flex items-start gap-3 text-sm text-muted-foreground">
+                      <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
+          </section>
+
           <section id="firmware" className="mb-12">
             <h2 className="mb-4 text-2xl font-semibold text-white">Firmware</h2>
             <div className="grid gap-4 sm:grid-cols-3">
@@ -258,7 +292,19 @@ export function ModelPage() {
           </section>
 
           <section id="error-codes" className="mb-12">
-            <h2 className="mb-4 text-2xl font-semibold text-white">Error Codes</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-white">Common Issues</h2>
+            <div className="flex flex-col gap-3">
+              {model?.commonIssues?.map((issue) => (
+                <Card key={issue} className="glass border-l-4 border-l-yellow-500">
+                  <CardContent className="flex items-center gap-4 py-4">
+                    <AlertTriangle className="h-5 w-5 text-yellow-500" />
+                    <div className="text-sm text-muted-foreground">{issue}</div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            <h2 className="mb-4 mt-8 text-2xl font-semibold text-white">Error Codes</h2>
             <div className="flex flex-col gap-3">
               {errorCodes.map((err) => (
                 <Card
