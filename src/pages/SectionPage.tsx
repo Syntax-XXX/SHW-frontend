@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Cpu, Battery, Gauge, ShieldCheck, BookOpen } from "lucide-react";
+import { ArrowRight, Cpu, ShieldCheck, BookOpen } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
