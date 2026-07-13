@@ -1,21 +1,42 @@
-import { Button } from "@/components/ui/button"
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { DisclaimerModal } from "@/components/DisclaimerModal";
+import { DocLayout } from "@/components/DocLayout";
+import { HomePage } from "@/pages/HomePage";
+import { CatalogPage } from "@/pages/CatalogPage";
+import { ModelPage } from "@/pages/ModelPage";
+import { FirmwarePage } from "@/pages/FirmwarePage";
+import { NotFoundPage } from "@/pages/NotFoundPage";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: { staleTime: 5 * 60 * 1000, retry: 1 },
+  },
+});
 
 export function App() {
   return (
-    <div className="flex min-h-svh p-6">
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="font-medium">Project ready!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We&apos;ve already added the button component for you.</p>
-          <Button className="mt-2">Button</Button>
-        </div>
-        <div className="font-mono text-xs text-muted-foreground">
-          (Press <kbd>d</kbd> to toggle dark mode)
-        </div>
-      </div>
-    </div>
-  )
+    <ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <BrowserRouter>
+            <DisclaimerModal />
+            <Routes>
+              <Route element={<DocLayout />}>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/models" element={<CatalogPage />} />
+                <Route path="/models/:slug" element={<ModelPage />} />
+                <Route path="/firmware" element={<FirmwarePage />} />
+                <Route path="*" element={<NotFoundPage />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </ThemeProvider>
+  );
 }
 
-export default App
+export default App;
